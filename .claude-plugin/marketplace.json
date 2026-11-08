@@ -1,5 +1,15 @@
 {
   "name": "shell-to-prompt",
-  "owner": { "name": "alazc" },
-  "plugins": [{ "name": "shell-to-prompt", "source": "./" }]
+  "description": "shell-to-prompt: put the commands from Claude's latest reply into the prompt box with one click.",
+  "owner": { "name": "alazc", "url": "https://github.com/alazc" },
+  "plugins": [
+    {
+      "name": "shell-to-prompt",
+      "source": "./",
+      "description": "A band above the prompt with one button per shell or slash command in the latest reply.",
+      "version": "0.2.0",
+      "author": { "name": "alazc" },
+      "license": "MIT"
+    }
+  ]
 }

@@ -7,12 +7,12 @@ const F = '```'
 test('shell blocks are found with !, other languages are not', async () => {
   const md = [
     'Run this:',
-    `${F}bash`, 'start "" ./library/video/moments-flow.mp4', F,
+    `${F}bash`, 'start "" ./videos/demo.mp4', F,
     `${F}python`, 'print(1)', F,
     `${F}powershell`, 'Get-ChildItem', F,
-    `${F}bash`, 'start "" ./library/video/moments-flow.mp4', F,
+    `${F}bash`, 'start "" ./videos/demo.mp4', F,
   ].join('\n')
-  expect(promptTexts(md)).toEqual(['! start "" ./library/video/moments-flow.mp4', '! Get-ChildItem'])
+  expect(promptTexts(md)).toEqual(['! start "" ./videos/demo.mp4', '! Get-ChildItem'])
 })
 
 test('console blocks keep only prompted lines', async () => {
