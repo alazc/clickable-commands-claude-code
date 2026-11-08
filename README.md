@@ -1,10 +1,10 @@
 # shell-to-prompt
 
-shell-to-prompt is a Claude Code mod. After each reply from Claude, it shows a band above the prompt box. The band has one button for each shell command in the reply's fenced code blocks.
+shell-to-prompt is a Claude Code mod. After each reply from Claude, it shows a band above the prompt box. The band has one button for each shell command or slash command in the reply's fenced code blocks.
 
 When you press a button, the prompt box gets `! <command>`. Nothing runs until you press Enter. Enter then runs the command in the session as a shell command.
 
-The mod reads blocks tagged `bash`, `sh`, `shell`, `zsh`, `powershell`, `pwsh`, `ps1`, `ps`, `cmd` and `bat`. For `console` and `terminal` blocks, it keeps only the lines that start with a prompt (`$`, `>` or `PS ...>`). The `[ x ]` button hides the band until the next reply.
+The mod reads blocks tagged `bash`, `sh`, `shell`, `zsh`, `powershell`, `pwsh`, `ps1`, `ps`, `cmd` and `bat`. For `console` and `terminal` blocks, it keeps only the lines that start with a prompt (`$`, `>` or `PS ...>`). A block whose lines are all slash commands (for example `/plugin install ...`) gives one button per line. A press puts the line in the prompt box as written, with no `!`. The `[ x ]` button hides the band until the next reply.
 
 The mod works with or without the prismantis mod. It does not change how replies are drawn.
 

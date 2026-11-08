@@ -1,10 +1,10 @@
 import { expect, test } from 'claude-code/testing'
 
-import { shellCommands } from './extract'
+import { promptTexts } from './extract'
 
 const F = '```'
 
-test('shell blocks are found, other languages are not', async () => {
+test('shell blocks are found with !, other languages are not', async () => {
   const md = [
     'Run this:',
     `${F}bash`, 'start "" ./library/video/moments-flow.mp4', F,
@@ -12,17 +12,31 @@ test('shell blocks are found, other languages are not', async () => {
     `${F}powershell`, 'Get-ChildItem', F,
     `${F}bash`, 'start "" ./library/video/moments-flow.mp4', F,
   ].join('\n')
-  expect(shellCommands(md)).toEqual(['start "" ./library/video/moments-flow.mp4', 'Get-ChildItem'])
+  expect(promptTexts(md)).toEqual(['! start "" ./library/video/moments-flow.mp4', '! Get-ChildItem'])
 })
 
 test('console blocks keep only prompted lines', async () => {
   const md = [`${F}console`, '$ npm test', 'PASS all', 'PS C:\\x> dir', F].join('\n')
-  expect(shellCommands(md)).toEqual(['npm test\ndir'])
+  expect(promptTexts(md)).toEqual(['! npm test\ndir'])
 })
 
 test('tilde fences and longer fences work', async () => {
   const md = ['~~~sh', 'ls -la', '~~~', '````bash', 'echo a', F, 'echo b', '````'].join('\n')
-  expect(shellCommands(md)).toEqual(['ls -la', `echo a\n${F}\necho b`])
+  expect(promptTexts(md)).toEqual(['! ls -la', `! echo a\n${F}\necho b`])
+})
+
+test('slash commands are found as written, paths are not', async () => {
+  const md = [
+    `${F}text`, '/plugin install shell-to-prompt --marketplace alazc/shell-to-prompt', F,
+    F, '/prismantis:setup', '', '/clear', F,
+    `${F}text`, '/usr/bin/env node', F,
+    `${F}text`, '/clear', 'then type hello', F,
+  ].join('\n')
+  expect(promptTexts(md)).toEqual([
+    '/plugin install shell-to-prompt --marketplace alazc/shell-to-prompt',
+    '/prismantis:setup',
+    '/clear',
+  ])
 })
 
 const BAND = {
@@ -32,13 +46,13 @@ const BAND = {
   props: { hasSurvey: false, isWorking: false, maxRows: 20, bodyColumns: 80, scroll: { offset: 0, bodyRows: 20 } },
 } as const
 
-test('the band lists commands and a press fills the prompt with !', async ($, on) => {
+test('the band lists commands and a press fills the prompt', async ($, on) => {
   const filled: string[] = []
   on('session.start', (_, e) => ({ cwd: e.cwd }))
   on('session.messages', () => ({
     value: [
       { role: 'user', text: 'how do I play it?', toolUses: [] },
-      { role: 'assistant', text: `Use:\n${F}bash\nstart "" ./a.mp4\n${F}`, toolUses: [] },
+      { role: 'assistant', text: `Use:\n${F}bash\nstart "" ./a.mp4\n${F}\nor\n${F}text\n/plugin list\n${F}`, toolUses: [] },
     ],
   }))
   on('prompt.fill', (_, e) => {
@@ -54,10 +68,11 @@ test('the band lists commands and a press fills the prompt with !', async ($, on
   await $.session.start({ cwd: '/', surface: 'terminal', isInteractive: true })
   const ui = await $.ui.mount({ ...BAND, surface: 'terminal' } as never)
 
-  const row = await ui.find({ type: 'Button', key: 'cmd0' } as never)
-  expect(row?.text).toContain('start "" ./a.mp4')
+  expect((await ui.find({ type: 'Button', key: 'cmd0' } as never))?.text).toContain('! start "" ./a.mp4')
+  expect((await ui.find({ type: 'Button', key: 'cmd1' } as never))?.text).toContain('/plugin list')
   await ui.press({ key: 'cmd0' })
-  expect(filled).toEqual(['! start "" ./a.mp4'])
+  await ui.press({ key: 'cmd1' })
+  expect(filled).toEqual(['! start "" ./a.mp4', '/plugin list'])
 
   await ui.press({ key: 'hide' })
   expect(await ui.find({ type: 'Button', key: 'cmd0' } as never)).toBe(undefined)
