@@ -49,7 +49,9 @@ const runShell = async ($: EngineInterface, shell: 'sh' | 'ps', command: string)
     .catch((error: unknown) => ({ deny: String(error instanceof Error ? error.message : error) }))
   if ('deny' in done && done.deny !== undefined) return `Not run: ${done.deny}`
   const output = (done.text ?? '').trim()
-  return output ? fenced(output) : '(no output)'
+  return fenced(output ? `$ ${command}
+${output}` : `$ ${command}
+(no output)`)
 }
 
 export const register: Register = on => {
