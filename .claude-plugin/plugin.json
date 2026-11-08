@@ -1,0 +1,6 @@
+{
+  "name": "shell-to-prompt",
+  "version": "0.1.0",
+  "description": "A band above the prompt with one button per shell command in the latest reply; a press puts '! <command>' in the prompt box.",
+  "types": "./types/index.d.ts"
+}

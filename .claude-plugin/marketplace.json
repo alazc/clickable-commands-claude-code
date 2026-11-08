@@ -1,0 +1,5 @@
+{
+  "name": "shell-to-prompt",
+  "owner": { "name": "alazc" },
+  "plugins": [{ "name": "shell-to-prompt", "source": "./" }]
+}
