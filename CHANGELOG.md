@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.4.0
+
+- Fix: a shell button did not run its command. The button put `! <command>` in the prompt box, and Claude Code sent that text to Claude as a message. Shell mode starts only when you type `!` as the first key.
+- A shell button now puts `/sh <command>` in the prompt box. A PowerShell button puts `/ps <command>`. The mod runs these commands with the Bash or PowerShell tool of the session, through your permission rules, and shows the output.
+
 ## 0.3.0
 
 - New name. The mod is now `clickable-commands`, and the repository is `alazc/clickable-commands-claude-code`. The old name was `shell-to-prompt`.

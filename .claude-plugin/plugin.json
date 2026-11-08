@@ -1,6 +1,6 @@
 {
   "name": "clickable-commands",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "A band above the prompt with one button per shell or slash command in the latest reply; a press puts it in the prompt box.",
   "author": {
     "name": "alazc",

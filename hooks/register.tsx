@@ -32,12 +32,41 @@ const refresh = async ($: EngineInterface) => {
   await update($, isHidden, () => false)
 }
 
+/** A fence one backtick longer than any run of backticks in `text`. */
+const fenced = (text: string): string => {
+  const longest = Math.max(2, ...(text.match(/`+/g) ?? []).map(run => run.length))
+  const fence = '`'.repeat(longest + 1)
+  return `${fence}text\n${text}\n${fence}`
+}
+
+/** Runs `command` with the session's own shell tool, permission check included. */
+const runShell = async ($: EngineInterface, shell: 'sh' | 'ps', command: string): Promise<string> => {
+  if (!command.trim()) return `Usage: /${shell} <command>`
+  const tools = (await $.tool.list().catch(() => [])).map(tool => tool.name)
+  const tool = shell === 'ps' && tools.includes('PowerShell') ? 'PowerShell' : 'Bash'
+  const done = await $.tool
+    .call({ tool, command, description: 'Run a command from a clickable-commands button' } as never)
+    .catch((error: unknown) => ({ deny: String(error instanceof Error ? error.message : error) }))
+  if ('deny' in done && done.deny !== undefined) return `Not run: ${done.deny}`
+  const output = (done.text ?? '').trim()
+  return output ? fenced(output) : '(no output)'
+}
+
 export const register: Register = on => {
   on('session.start', async ($, e, next) => {
     const started = await next(e)
+    await $.command
+      .register({ name: 'sh', description: 'Run a shell command in this session (clickable-commands)', argumentHint: '<command>' })
+      .catch(() => undefined)
+    await $.command
+      .register({ name: 'ps', description: 'Run a PowerShell command in this session (clickable-commands)', argumentHint: '<command>' })
+      .catch(() => undefined)
     await refresh($)
     return started
   })
+
+  on('command.run', { command: 'sh' }, async ($, e) => ({ text: await runShell($, 'sh', e.args) }))
+  on('command.run', { command: 'ps' }, async ($, e) => ({ text: await runShell($, 'ps', e.args) }))
 
   on('turn.complete', async ($, e, next) => {
     if (e.agentId === undefined) await refresh($)

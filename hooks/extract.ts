@@ -1,4 +1,5 @@
-const SHELLS = new Set(['bash', 'sh', 'shell', 'zsh', 'powershell', 'pwsh', 'ps1', 'ps', 'cmd', 'bat'])
+const SHELLS = new Set(['bash', 'sh', 'shell', 'zsh', 'cmd', 'bat'])
+const POWERSHELLS = new Set(['powershell', 'pwsh', 'ps1', 'ps'])
 const SESSIONS = new Set(['console', 'terminal', 'shell-session'])
 const PROMPT = /^(?:PS[^>]*>|\$|>)\s?/
 const SLASH = /^\/[a-z][\w:-]*(\s|$)/i
@@ -20,8 +21,8 @@ const slashOf = (lines: string[]): string[] => {
 
 /**
  * What each fenced block in a markdown reply would put in the prompt box, in
- * order, each once: `! <command>` for a shell block, the line as written for a
- * slash command.
+ * order, each once: `/sh <command>` for a shell block, `/ps <command>` for a
+ * PowerShell block, the line as written for a slash command.
  */
 export const promptTexts = (markdown: string): string[] => {
   const found: string[] = []
@@ -42,9 +43,9 @@ export const promptTexts = (markdown: string): string[] => {
     if (close && close[1]![0] === fence.char && close[1]!.length >= fence.size) {
       const slash = slashOf(fence.lines)
       if (slash.length) slash.forEach(add)
-      else if (SHELLS.has(fence.lang) || SESSIONS.has(fence.lang)) {
+      else if (SHELLS.has(fence.lang) || SESSIONS.has(fence.lang) || POWERSHELLS.has(fence.lang)) {
         const command = commandOf(fence.lang, fence.lines)
-        if (command) add(`! ${command}`)
+        if (command) add(`/${POWERSHELLS.has(fence.lang) ? 'ps' : 'sh'} ${command}`)
       }
       fence = undefined
       continue

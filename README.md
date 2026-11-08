@@ -16,10 +16,10 @@ A button does not run the command. You read the command in the prompt box, and y
     /plugin list
 
   commands from the last reply · press one to put it in the prompt   [ x ]
-  ⏎ ! start "" ./videos/demo.mp4
+  ⏎ /sh start "" ./videos/demo.mp4
   ⏎ /plugin list
  ──────────────────────────────────────────────────────────────────────────
- > ! start "" ./videos/demo.mp4
+ > /sh start "" ./videos/demo.mp4
 ```
 
 ## What it does
@@ -28,11 +28,16 @@ After each reply from Claude, the mod reads the reply's fenced code blocks. It m
 
 | Block in the reply | What the button puts in the prompt box |
 | --- | --- |
-| `bash`, `sh`, `shell`, `zsh`, `powershell`, `pwsh`, `ps1`, `ps`, `cmd`, `bat` | `! ` and then the whole block |
-| `console`, `terminal`, `shell-session` | `! ` and then only the lines that start with `$`, `>` or `PS ...>`, without the prompt |
+| `bash`, `sh`, `shell`, `zsh`, `cmd`, `bat` | `/sh ` and then the whole block |
+| `powershell`, `pwsh`, `ps1`, `ps` | `/ps ` and then the whole block |
+| `console`, `terminal`, `shell-session` | `/sh ` and then only the lines that start with `$`, `>` or `PS ...>`, without the prompt |
 | Any block in which every line is a slash command, for example `/plugin list` | Each line as written, one button for each line |
 
-In Claude Code, a prompt that starts with `!` runs as a shell command in your session. The output goes into the conversation. A slash command from a button is the same as a slash command that you type.
+The mod adds two slash commands, `/sh` and `/ps`. When you press Enter on `/sh <command>`, the mod gives the command to the Bash tool of your session. `/ps` uses the PowerShell tool, if your session has one. Otherwise `/ps` also uses the Bash tool. The tool call goes through your normal permission rules. If a rule does not allow the command, Claude Code asks you first. The output shows under the command.
+
+A slash command from a button is the same as a slash command that you type.
+
+The mod does not use the `!` prefix. Claude Code reads `!` as shell mode only when you type it as the first key. Text that a mod puts in the prompt box goes to Claude as a message.
 
 The button replaces what is in the prompt box. The `[ x ]` button hides the band until the next reply.
 
