@@ -27,20 +27,20 @@ test('tilde fences and longer fences work', async () => {
 
 test('slash commands are found as written, paths are not', async () => {
   const md = [
-    `${F}text`, '/plugin install shell-to-prompt --marketplace alazc/shell-to-prompt', F,
+    `${F}text`, '/plugin install clickable-commands --marketplace alazc/clickable-commands-claude-code', F,
     F, '/prismantis:setup', '', '/clear', F,
     `${F}text`, '/usr/bin/env node', F,
     `${F}text`, '/clear', 'then type hello', F,
   ].join('\n')
   expect(promptTexts(md)).toEqual([
-    '/plugin install shell-to-prompt --marketplace alazc/shell-to-prompt',
+    '/plugin install clickable-commands --marketplace alazc/clickable-commands-claude-code',
     '/prismantis:setup',
     '/clear',
   ])
 })
 
 const BAND = {
-  plugin: 'shell-to-prompt',
+  plugin: 'clickable-commands',
   component: 'AbovePrompt',
   requestId: 'above-prompt',
   props: { hasSurvey: false, isWorking: false, maxRows: 20, bodyColumns: 80, scroll: { offset: 0, bodyRows: 20 } },

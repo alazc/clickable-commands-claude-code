@@ -1,11 +1,25 @@
 {
-  "name": "shell-to-prompt",
-  "version": "0.2.0",
+  "name": "clickable-commands",
+  "version": "0.3.0",
   "description": "A band above the prompt with one button per shell or slash command in the latest reply; a press puts it in the prompt box.",
-  "author": { "name": "alazc", "url": "https://github.com/alazc" },
-  "homepage": "https://github.com/alazc/shell-to-prompt",
-  "repository": "https://github.com/alazc/shell-to-prompt",
+  "author": {
+    "name": "alazc",
+    "url": "https://github.com/alazc"
+  },
+  "homepage": "https://github.com/alazc/clickable-commands-claude-code",
+  "repository": "https://github.com/alazc/clickable-commands-claude-code",
   "license": "MIT",
-  "keywords": ["shell", "commands", "prompt", "buttons", "bash", "powershell", "slash-commands"],
+  "keywords": [
+    "claude-code",
+    "claude-code-plugin",
+    "clickable",
+    "commands",
+    "shell",
+    "prompt",
+    "buttons",
+    "bash",
+    "powershell",
+    "slash-commands"
+  ],
   "types": "./types/index.d.ts"
 }

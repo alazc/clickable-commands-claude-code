@@ -1,6 +1,8 @@
-# shell-to-prompt
+# clickable-commands for Claude Code
 
-shell-to-prompt is a mod for Claude Code, the terminal coding tool from Anthropic.
+Clickable shell commands and slash commands for Claude Code, the terminal coding tool from Anthropic.
+
+clickable-commands is a Claude Code plugin (a mod).
 
 If Claude gives you a command in a reply, the mod shows a button for it above the prompt box. You press the button, and the command goes into the prompt box. You do not copy and paste.
 
@@ -41,7 +43,7 @@ The mod shows the band in the terminal and in the desktop app. It works with or 
 Type this line at the prompt of a Claude Code terminal session:
 
 ```text
-/plugin install shell-to-prompt --marketplace alazc/shell-to-prompt
+/plugin install clickable-commands --marketplace alazc/clickable-commands-claude-code
 ```
 
 When Claude Code asks `Add marketplace?`, answer `y`. Then pick a scope. The user scope loads the mod in all your sessions.
@@ -49,10 +51,10 @@ When Claude Code asks `Add marketplace?`, answer `y`. Then pick a scope. The use
 To install from a shell instead:
 
 ```bash
-claude plugin install shell-to-prompt --marketplace alazc/shell-to-prompt
+claude plugin install clickable-commands --marketplace alazc/clickable-commands-claude-code
 ```
 
-In the desktop app, where `/plugin` does not run, click + next to the prompt box. Click Plugins, then Add marketplace, and type `alazc/shell-to-prompt`. Then click Add plugin.
+In the desktop app, where `/plugin` does not run, click + next to the prompt box. Click Plugins, then Add marketplace, and type `alazc/clickable-commands-claude-code`. Then click Add plugin.
 
 ## Use
 
@@ -65,8 +67,8 @@ In the desktop app, where `/plugin` does not run, click + next to the prompt box
 To get a new version:
 
 ```bash
-claude plugin marketplace update shell-to-prompt
-claude plugin update shell-to-prompt@shell-to-prompt
+claude plugin marketplace update clickable-commands-claude-code
+claude plugin update clickable-commands@clickable-commands-claude-code
 ```
 
 Restart Claude Code after an update.
@@ -74,7 +76,7 @@ Restart Claude Code after an update.
 To remove the mod:
 
 ```bash
-claude plugin uninstall shell-to-prompt@shell-to-prompt
+claude plugin uninstall clickable-commands@clickable-commands-claude-code
 ```
 
 ## Develop

@@ -3,8 +3,8 @@ import type { EngineInterface, Register } from 'claude-code'
 
 import { promptTexts } from './extract'
 
-const commands = atom({ plugin: 'shell-to-prompt', key: 'commands' } as const, [] as string[])
-const isHidden = atom({ plugin: 'shell-to-prompt', key: 'isHidden' } as const, false)
+const commands = atom({ plugin: 'clickable-commands', key: 'commands' } as const, [] as string[])
+const isHidden = atom({ plugin: 'clickable-commands', key: 'isHidden' } as const, false)
 
 const SHOWN = 5
 
